@@ -35,7 +35,6 @@ export default function Home() {
 
   useEffect(() => {
   blogService.getAllBlogs(blogFilter).then((res)=>{
-    console.log(res)
     if(res.status==200){
       setBlogs(res.blogs)
 
@@ -58,7 +57,6 @@ export default function Home() {
 
   const onSearch=()=>{
     blogService.getAllBlogs(blogFilter).then((res)=>{
-      console.log("SEARCH :",res)
       if(res.status==200){
         setBlogs(res.blogs)
   

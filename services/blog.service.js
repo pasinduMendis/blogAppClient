@@ -25,7 +25,6 @@ async function createBlog(blogData,session) {
     }
     try {
         const res = await axios.post(process.env.BASE_URL + '/blog/create', blogData, config);
-        //console.log("RES ", res)
         if (res.status === 200 ) {
             return {data:res.data,status:res.status};
         } else {
@@ -40,11 +39,9 @@ async function createBlog(blogData,session) {
 }
 
 async function getAllBlogs(filter) {
-    console.log("bodyFilte :",filter)
 
     try {
         const res = await axios.post(process.env.BASE_URL + 'blog/getAllBlogs', filter, requestObj);
-        console.log("RES ", res)
         if (res.status === 200 ) {
             return {blogs:res.data.blogs,status:200};
         } else {
@@ -62,7 +59,6 @@ async function getSingleBlog(blogId) {
 
     try {
         const res = await axios.post(process.env.BASE_URL + 'blog/getSingleBlog', {blogId:blogId}, requestObj);
-        console.log("RES ", res)
         if (res.status === 200 ) {
             return {blogs:res.data.blog,status:200};
         } else {

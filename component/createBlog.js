@@ -69,7 +69,6 @@ const onClickAdd = async () => {
     if (validateFields()) {
         setLoading(true);
         blogService.createBlog(blogInfo,session).then(async (res) => {
-            //console.log("res SP", res)
             if (res.status === 200 ) {
                 setMsg(res.data.message);
                 setLoading(false);

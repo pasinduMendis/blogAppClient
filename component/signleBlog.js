@@ -7,8 +7,6 @@ const signleBlog = ({blogId}) => {
 
     useEffect(() => {
         blogService.getSingleBlog(blogId).then((res)=>{
-            console.log(blogId)
-          console.log("single :",res)
           if(res.status==200){
 
             setBlogs(res.blogs)

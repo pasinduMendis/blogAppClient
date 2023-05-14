@@ -67,7 +67,6 @@ const validateFields = () => {
       if (validateFields()) {
           setLoading(true);
           authService.signUp(userInfo).then(async (res) => {
-              //console.log("res SP", res)
               if (res.status === 200 ) {
                   await onSignIn()
               } else {

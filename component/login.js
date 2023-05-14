@@ -52,7 +52,6 @@ const login = ({isOpenLogin}) => {
             password: userInfo.password,
             callbackUrl: `${window.location.origin}`,
         });
-        console.log("res :",res)
         if (res?.error) {
             setFormError({
                 status: 'error',

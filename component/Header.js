@@ -36,7 +36,6 @@ const Header = ({session,isSession,setisRegOpen,setisLoginOpen,isNewBlogOpen}) =
     };
   }, []);
 
-  console.log(screenSize)
   return (
     <div>
 

@@ -38,7 +38,6 @@ export default NextAuth({
           throw new Error(user.message)
         }
         if (res.status === 200 && user) {
-          console.log("user :",user)
           return user
         }
         

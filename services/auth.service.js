@@ -18,7 +18,6 @@ const requestObj = {
 async function signUp(userInfo) {
     try {
         const res = await axios.post(process.env.BASE_URL + 'auth/signUp', userInfo, requestObj);
-        //console.log("RES ", res)
         if (res.status === 200 ) {
             return {data:res.data,status:res.status};
         } else {
