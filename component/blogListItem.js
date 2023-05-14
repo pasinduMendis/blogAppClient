@@ -5,7 +5,7 @@ const blogListItem = ({createdDate,image,title,body,author}) => {
   return (
     <div>
     <Container>
-            <Grid.Container>
+            <Grid.Container css={{padding:"",paddingRight:"20px"}}>
             <Grid lg={12} md={12} sm={12} xs={12}>
                 <h3>{title}</h3>
                 </Grid>
@@ -21,7 +21,7 @@ const blogListItem = ({createdDate,image,title,body,author}) => {
                     />
                 </Grid>}
                 <Grid lg={3} md={4} sm={12} xs={12}>
-                <p style={{ fontWeight: 'bold',color:"blue" }}>{author}</p>
+                <p style={{ fontWeight: 'bold',color:"blue",padding:"10px" }}>{author}</p>
                 </Grid>
                 <Grid lg={3} md={4} sm={6} xs={6} >
                 <p style={{ color: 'gray', fontStyle: 'italic' }}>{createdDate}</p>

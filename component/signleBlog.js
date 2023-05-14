@@ -20,7 +20,7 @@ const signleBlog = ({blogId}) => {
   return (
     <div>
     {blogs &&  blogs?.author?.name  && <Container>
-            <Grid.Container>
+            <Grid.Container css={{paddingBottom:"10px",paddingRight:"20px"}}>
             <Grid lg={12} md={12} sm={12} xs={12}>
                 <h3>{blogs.title}</h3>
                 </Grid>
@@ -30,7 +30,7 @@ const signleBlog = ({blogId}) => {
                 <Grid lg={3} md={4} sm={6} xs={6} >
                 <p style={{ color: 'gray', fontStyle: 'italic' }}>{blogs.createdDate}</p>
                 </Grid>
-                {blogs.image && <Grid lg={12} md={12} sm={12} xs={12} justify='' css={{marginTop:"5px"}}>
+                {blogs.image && <Grid lg={12} md={12} sm={12} xs={12} justify='' css={{marginTop:"5px",paddingRight:"20px"}}>
                 <Image
                       src={blogs.image}
                       alt="Image Description"
@@ -40,7 +40,7 @@ const signleBlog = ({blogId}) => {
                 </Grid>}
 
               <Grid lg={12} md={12} sm={12} xs={12} css={{marginTop:"5px"}}>
-               <p style={{width:"90%"}}>{blogs.body}</p>
+               <p style={{width:"90%",}}>{blogs.body}</p>
                 </Grid>
                 
                 
