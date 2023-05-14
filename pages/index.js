@@ -1,115 +1,226 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import { Container, Grid, Text, Input, Button, Modal } from "@nextui-org/react"
+import Header from "../component/Header"
+import { useEffect, useState } from "react"
+import BlogListItem from "../component/blogListItem"
+import Login from "../component/login"
+import Register from "../component/register"
+import { useSession } from "next-auth/react"
+import CreateBlog  from "../component/createBlog"
+import { blogService } from "../services/blog.service"
+import SignleBlog from "../component/signleBlog"
 
 export default function Home() {
+  const [isSession, setisSession] = useState(false)
+  const [isLoginOpen, setisLoginOpen] = useState(false)
+  const [isSingleOpen, setisSingleOpen] = useState(false)
+  const [isRegOpen, setisRegOpen] = useState(false)
+  const [isNewBlogOpen, setNewBlogOpen] = useState(false)
+  const [bolgId, setBlogId] = useState("")
+  const [pageLoading, setPageLoading] = useState(true);
+  const { data: session, status } = useSession()
+  const [blogs,setBlogs]=useState([])
+  const [blogFilter,setBlogFilter]=useState({ author: '', title: '' });
+  
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      setisSession(false)
+    }
+    else if (status == 'loading') {
+      setPageLoading(true)
+    } else{
+      setisSession(true)
+    }
+  }, [session, status])
+
+  useEffect(() => {
+  blogService.getAllBlogs(blogFilter).then((res)=>{
+    console.log(res)
+    if(res.status==200){
+      setBlogs(res.blogs)
+
+    }
+  })
+  }, [])
+
+  const updateBlogFilterInfo = (field, value) => {
+    switch (field) {
+        case 'author':
+            setBlogFilter({ ...blogFilter, author: value });
+            break;
+        case 'title':
+            setBlogFilter({ ...blogFilter, title: value });
+            break;
+        default:
+            console.log("No field defined")
+    }
+}
+
+  const onSearch=()=>{
+    blogService.getAllBlogs(blogFilter).then((res)=>{
+      console.log("SEARCH :",res)
+      if(res.status==200){
+        setBlogs(res.blogs)
+  
+      }
+    })
+
+  }
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <>
+      <Modal
+        closeButton
+        width="50vw"
+        blur
+        aria-labelledby="modal-title"
+        css={{ background: "white" }}
+        open={isLoginOpen}
+        onClose={() => {
+          setisLoginOpen(false);
+        }}
+      >
+        <div>
+          <Login
+            isOpenLogin={(val) => {
+              setisLoginOpen(val);
+            }}
+          />
         </div>
-      </main>
+      </Modal>
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
+      <Modal
+        closeButton
+        width="50vw"
+        blur
+        aria-labelledby="modal-title"
+        css={{ background: "white" }}
+        open={isRegOpen}
+        onClose={() => {
+          setisRegOpen(false);
+        }}
+      >
+        <div>
+          <Register
+            isOpenReg={(val) => {
+              setisRegOpen(val);
+            }}
+          />
+        </div>
+      </Modal>
 
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
+      <Modal
+        closeButton
+        width="50vw"
+        blur
+        aria-labelledby="modal-title"
+        css={{ background: "white" }}
+        open={isNewBlogOpen}
+        onClose={() => {
+          setNewBlogOpen(false);
+        }}
+      >
+        <div>
+          <CreateBlog
+            isNewBlogOpen={(val) => {
+              setNewBlogOpen(val);
+            }}
+          />
+        </div>
+      </Modal>
 
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+      <Modal
+        closeButton
+        width="90vw"
+        blur
+        aria-labelledby="modal-title"
+        css={{ background: "white",overflowY:"scroll"}}
+        open={isSingleOpen}
+        onClose={() => {
+          setisSingleOpen(false);
+        }}
+      >
+        <div>
+          <SignleBlog
+            blogId={bolgId}
+          />
+        </div>
+      </Modal>
+
+      <Header
+        isSession={isSession}
+        setisLoginOpen={(val) => setisLoginOpen(val)}
+        setisRegOpen={(val) => setisRegOpen(val)}
+        isNewBlogOpen={(val) => {
+          setNewBlogOpen(val);
+        }}
+      />
+      <div className={""}>
+        <Container>
+          <Grid.Container
+            css={{
+              padding: "10px",
+            }}
+          >
+            <Grid lg={3} md={3} sm={4} xs={4} css={{ marginLeft: 3 }}>
+              <Input
+                clearable
+                bordered
+                fullWidth
+                color="primary"
+                size="lg"
+                placeholder="Title"
+                type="text"
+                onChange={(e) => updateBlogFilterInfo("title", e.target.value)}
+              />
+            </Grid>
+            <Grid lg={3} md={3} sm={4} xs={4} css={{ marginLeft: 3 }}>
+              <Input
+                clearable
+                bordered
+                fullWidth
+                color="primary"
+                size="lg"
+                placeholder="Author"
+                type="text"
+                onChange={(e) => updateBlogFilterInfo("author", e.target.value)}
+              />
+            </Grid>
+            <Grid lg={3} md={3} sm={3} xs={3} css={{ marginLeft: 3 }}>
+              <Button onClick={()=>{onSearch()}} size="lg">SEARCH</Button>
+            </Grid>
+          </Grid.Container>
+        </Container>
+        <Container>
+          {blogs &&
+            blogs.length > 0 &&
+            blogs.map((item, id) => {
+              return (
+                <Grid.Container
+                  css={{
+                    padding: "10px",
+                    border: "1px solid lightblue",
+                    borderRadius: "5px",
+                    marginTop: "10px",
+                    cursor: "pointer",
+                  }}
+                  onClick={()=>{setBlogId(item.blogId);setisSingleOpen(true)}}
+                >
+                  <Grid lg={12} md={12} sm={12} xs={12} key={id}>
+                    <BlogListItem
+                      title={item.title}
+                      body={item.body}
+                      author={item.author.name}
+                      key={id}
+                      image={item.image}
+                      createdDate={item.createdDate}
+                    />
+                  </Grid>
+                </Grid.Container>
+              );
+            })}
+        </Container>
+      </div>
+    </>
+  );
 }
