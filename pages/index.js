@@ -162,7 +162,7 @@ export default function Home() {
               padding: "10px",
             }}
           >
-            <Grid lg={3} md={3} sm={4} xs={4} css={{ marginLeft: 3 }}>
+            <Grid lg={3} md={3} sm={3} xs={3} css={{ marginLeft: 3 }}>
               <Input
                 clearable
                 bordered
@@ -174,7 +174,7 @@ export default function Home() {
                 onChange={(e) => updateBlogFilterInfo("title", e.target.value)}
               />
             </Grid>
-            <Grid lg={3} md={3} sm={4} xs={4} css={{ marginLeft: 3 }}>
+            <Grid lg={3} md={3} sm={3} xs={3} css={{ marginLeft:"10px" }}>
               <Input
                 clearable
                 bordered
@@ -187,7 +187,7 @@ export default function Home() {
               />
             </Grid>
             <Grid lg={3} md={3} sm={3} xs={3} css={{ marginLeft: 3 }}>
-              <Button onClick={()=>{onSearch()}} size="lg">SEARCH</Button>
+              <Button onClick={()=>{onSearch()}} size="auto" css={{paddingLeft:"10px",paddingRight:"10px",marginLeft:"auto"}}>SEARCH</Button>
             </Grid>
           </Grid.Container>
         </Container>
